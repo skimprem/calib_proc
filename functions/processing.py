@@ -1,8 +1,11 @@
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
+import logging
 from functions.globals import TOTAL_UNCERT as total_uncert
 from functions.adjustment import drift_fitting, calibration_fitting, weighted_mean
+
+logger = logging.getLogger('calib_proc.processing')
 
 
 def shift_to_value(a, b, h1, h2):
@@ -12,6 +15,8 @@ def shift_to_ste(ua, ub, covab, h1, h2):
     return abs(h2 - h1) * np.sqrt(ua**2 + (h2 + h1)**2 * ub**2 + (h2 + h1) * covab)
 
 def proc(relative, absolute, model_type='WLS', drift_degree=2, calib_degree=1):
+    logger.info('Starting processing with model_type=%s, drift_degree=%d, calib_degree=%d',
+               model_type, drift_degree, calib_degree)
     
     '''
     Process relative and absolute readings to get calibration parameters

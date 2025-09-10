@@ -66,11 +66,9 @@ def cli_args():
     )
 
     parser.add_argument(
-        '--logs',
-        metavar='out-file',
-        type=argparse.FileType('w'),
-        default='report.log',
-        help='Report to log file'
+        '--logging',
+        action='store_true',
+        help='Enable logging to file'
     )
   
     parser.add_argument(
@@ -152,17 +150,10 @@ def gui_args():
         title='Save Output'
     )
 
-    logs_mode = mb.askyesno(
-        title='Log file',
-        message='Want to create a log file?',
+    logging_mode = mb.askyesno(
+        title='Logging',
+        message='Enable logging to file?',
     )
-
-    if logs_mode:
-        logs = fd.asksaveasfilename(
-            defaultextension=".log",
-            initialfile='report.log',
-            title='Log file',
-        )
 
     method = ask_option(
         title='Solution method',
@@ -206,11 +197,9 @@ def gui_args():
     arguments.append('--output')
     arguments.append(output)
 
-    parser.add_argument('--logs', type=argparse.FileType('w'))
-    
-    if logs_mode:
-        arguments.append('--logs')
-        arguments.append(logs)
+    parser.add_argument('--logging', action='store_true')
+    if logging_mode:
+        arguments.append('--logging')
 
     parser.add_argument('--method', type=str)
     arguments.append('--method')
