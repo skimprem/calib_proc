@@ -11,11 +11,15 @@ def shift_to_value(a, b, h1, h2):
 def shift_to_ste(ua, ub, covab, h1, h2):
     return abs(h2 - h1) * np.sqrt(ua**2 + (h2 + h1)**2 * ub**2 + (h2 + h1) * covab)
 
-def params(relative, absolute, model_type='WLS', drift_degree=2, calib_degree=1):
+def proc(relative, absolute, model_type='WLS', drift_degree=2, calib_degree=1):
+    
+    '''
+    Process relative and absolute readings to get calibration parameters
+    '''
 
-    relative = relative.merge(absolute[['Station', 'gravity_cg6']], how='inner', on='Station')
+    relative = relative.merge(absolute[['Station']], how='inner', on='Station')
 
-    reference = absolute[['Station', 'diff', 'ste_diff']].copy()
+    reference = absolute.copy()
     reference.set_index('Station', inplace=True)
     reference.drop(index=reference.index[0], inplace=True)
 
@@ -53,12 +57,15 @@ def params(relative, absolute, model_type='WLS', drift_degree=2, calib_degree=1)
 
         ties['tie_coef_ste'] = np.sqrt((ties['ref_ste']/ties['ref'])**2 + ((ties['ref']*ties['tie_ste'])/ties['tie']**2)**2)
 
+        p, s = weighted_mean(ties['tie_coef'], ties['tie_coef_ste'])
+        
         params, bse = calibration_fitting(
             ties=ties['tie'],
             ties_ste=ties['tie_ste'],
             refs=ties['ref'],
             refs_ste=ties['ref_ste'],
             degree=calib_degree,
+            model_type=model_type
         )
 
         fit_tie = 0
@@ -99,7 +106,6 @@ def params(relative, absolute, model_type='WLS', drift_degree=2, calib_degree=1)
             ], axis=1
         )
 
-
         total_ties = pd.concat(
             [
                 total_ties,
@@ -115,12 +121,5 @@ def params(relative, absolute, model_type='WLS', drift_degree=2, calib_degree=1)
             ],
             axis=0
         )
-
-    meters = '_'.join([str(m) for m in total_ties["meter"].unique()])
-
-    total_ties.to_excel(
-        f'calibration_ties_{meters}.xlsx',
-        index=False
-    )
-
+    
     return meters_calib_params, total_ties

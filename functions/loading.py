@@ -1,5 +1,6 @@
+import numpy as np
 import pandas as pd
-from functions.globals import REL_HEADER, STATIONS
+from functions.globals import REL_HEADER
 from functions.processing import shift_to_value, shift_to_ste
 
 def load_relative(files):
@@ -52,15 +53,21 @@ def load_relative(files):
         
     return readings.reset_index(drop=True)
 
-def load_absolute(_file):
+def load_absolute(_file, reduce_height=0):
 
     '''
     Load absolute readings from Excel file
     '''
 
     absolute = pd.read_excel(_file, engine='openpyxl')
-    absolute['Station'] = absolute['Station'].map(STATIONS)
-    redu = absolute.apply(lambda x: shift_to_value(x['a'], x['b'], x['h_eff'], 0.211)*1e-3, axis=1)
-    absolute['gravity_cg6'] = absolute['gravity_eff'] * 1e-3 + redu
+    absolute['redu'] = absolute.apply(
+        lambda x: shift_to_value(x['a'], x['b'], x['h_eff'], reduce_height), axis=1)
+    absolute['gravity_cg6'] = absolute.apply(
+        lambda x: x['gravity_eff'] + shift_to_value(x['a'], x['b'], x['h_eff'], reduce_height), axis=1)
+    absolute['ste_cg6'] = absolute.apply(lambda x: shift_to_ste(x['ua'], x['ub'], x['covab'], x['h_eff'], reduce_height), axis=1)
+    absolute['diff'] = absolute['gravity_cg6'] - absolute['gravity_cg6'].iloc[0]
+    absolute['ste_diff'] = np.sqrt(absolute['ste_cg6']**2 + absolute['ste_cg6'].iloc[0]**2)
+
+    absolute.to_excel('absolute_cg6.xlsx', index=False)
 
     return absolute
