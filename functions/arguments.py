@@ -126,7 +126,7 @@ def gui_args():
             filetypes=[
                 ('CG-6 format files', '*.dat'),
             ],
-            title='Choose measured data file'
+            title='Choose measured data files'
         )
     )
 

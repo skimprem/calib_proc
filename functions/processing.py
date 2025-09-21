@@ -100,6 +100,7 @@ def proc(relative, absolute, model_type='WLS', drift_degree=2, calib_degree=1):
                 calib_params,
                 pd.DataFrame(
                     data={
+                        'meter': meter_number,
                         'diff_count': stats.loc['diff', 'count'],
                         'diff_mean': stats.loc['diff', 'mean'],
                         'diff_ste': stats.loc['diff', 'std'],
