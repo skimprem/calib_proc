@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Roman Sermiagin" />
+  <meta name="dcterms.date" content="2025-09-24" />
+  <title>Calibration Processing Examples</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Calibration Processing Examples</h1>
+<p class="author">Roman Sermiagin</p>
+<p class="date">2025-09-24</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#примеры-использования-calibration-processing"
+id="toc-примеры-использования-calibration-processing">Примеры
+использования Calibration Processing</a>
+<ul>
+<li><a href="#пример-1-базовая-обработка"
+id="toc-пример-1-базовая-обработка">Пример 1: Базовая обработка</a>
+<ul>
+<li><a href="#исходные-данные" id="toc-исходные-данные">Исходные
+данные</a></li>
+<li><a href="#команда-запуска" id="toc-команда-запуска">Команда
+запуска</a></li>
+<li><a href="#ожидаемые-результаты"
+id="toc-ожидаемые-результаты">Ожидаемые результаты</a></li>
+</ul></li>
+<li><a href="#пример-2-обработка-с-высоким-дрейфом"
+id="toc-пример-2-обработка-с-высоким-дрейфом">Пример 2: Обработка с
+высоким дрейфом</a>
+<ul>
+<li><a href="#сценарий" id="toc-сценарий">Сценарий</a></li>
+<li><a href="#настройки" id="toc-настройки">Настройки</a></li>
+</ul></li>
+<li><a href="#пример-3-прецизионные-измерения"
+id="toc-пример-3-прецизионные-измерения">Пример 3: Прецизионные
+измерения</a>
+<ul>
+<li><a href="#сценарий-1" id="toc-сценарий-1">Сценарий</a></li>
+<li><a href="#настройки-1" id="toc-настройки-1">Настройки</a></li>
+<li><a href="#интерпретация-квадратичной-калибровки"
+id="toc-интерпретация-квадратичной-калибровки">Интерпретация
+квадратичной калибровки</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="примеры-использования-calibration-processing">Примеры
+использования Calibration Processing</h1>
+<h2 id="пример-1-базовая-обработка">Пример 1: Базовая обработка</h2>
+<h3 id="исходные-данные">Исходные данные</h3>
+<p><strong>Файлы CG-6:</strong></p>
+<ul>
+<li><code>CG-6_0527_06072025.dat</code> - измерения прибора №527</li>
+<li><code>CG-6_0528_06072025.dat</code> - измерения прибора №528</li>
+</ul>
+<p><strong>Файл absolute.xlsx:</strong></p>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 22%" />
+<col style="width: 15%" />
+<col style="width: 11%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Station</th>
+<th>gravity_eff</th>
+<th>ste_eff</th>
+<th>h_eff</th>
+<th>a</th>
+<th>b</th>
+<th>ua</th>
+<th>ub</th>
+<th>covab</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P01</td>
+<td>979691473</td>
+<td>0.00</td>
+<td>0.68</td>
+<td>-335.17</td>
+<td>- 6.27</td>
+<td>1.74</td>
+<td>1.19</td>
+<td>-2.04</td>
+</tr>
+<tr>
+<td>P02</td>
+<td>979777497</td>
+<td>2.00</td>
+<td>0.68</td>
+<td>-235.82</td>
+<td>- 5.44</td>
+<td>2.17</td>
+<td>1.50</td>
+<td>-3.21</td>
+</tr>
+<tr>
+<td>P03</td>
+<td>979886785</td>
+<td>1.00</td>
+<td>0.68</td>
+<td>-266.79</td>
+<td>- 9.77</td>
+<td>1.73</td>
+<td>1.19</td>
+<td>-2.02</td>
+</tr>
+<tr>
+<td>P04</td>
+<td>980023030</td>
+<td>2.00</td>
+<td>0.68</td>
+<td>-328.73</td>
+<td>-11.70</td>
+<td>1.80</td>
+<td>1.23</td>
+<td>-2.19</td>
+</tr>
+<tr>
+<td>P06</td>
+<td>980069809</td>
+<td>1.00</td>
+<td>0.68</td>
+<td>-294.30</td>
+<td>- 3.24</td>
+<td>2.08</td>
+<td>1.44</td>
+<td>-2.93</td>
+</tr>
+<tr>
+<td>P05</td>
+<td>980070551</td>
+<td>2.00</td>
+<td>0.68</td>
+<td>-275.11</td>
+<td>- 1.36</td>
+<td>1.26</td>
+<td>0.86</td>
+<td>-1.06</td>
+</tr>
+<tr>
+<td>P07</td>
+<td>980185386</td>
+<td>1.00</td>
+<td>0.68</td>
+<td>-308.90</td>
+<td>- 4.35</td>
+<td>3.16</td>
+<td>2.18</td>
+<td>-6.75</td>
+</tr>
+<tr>
+<td>P08</td>
+<td>980309127</td>
+<td>1.00</td>
+<td>0.68</td>
+<td>-316.47</td>
+<td>- 8.49</td>
+<td>0.93</td>
+<td>0.64</td>
+<td>-0.58</td>
+</tr>
+</tbody>
+</table>
+<h3 id="команда-запуска">Команда запуска</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/calibration.py <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--relative</span> data/relative/<span class="pp">*</span>.dat <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--absolute</span> data/absolute.xlsx <span class="dt">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> results.xlsx <span class="dt">\</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--method</span> WLS <span class="dt">\</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--drift_degree</span> 2 <span class="dt">\</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--calib_degree</span> 1 <span class="dt">\</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--meter_height</span> 0.21</span></code></pre></div>
+<h3 id="ожидаемые-результаты">Ожидаемые результаты</h3>
+<p><strong>calibration_parameters:</strong></p>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 18%" />
+<col style="width: 24%" />
+<col style="width: 15%" />
+<col style="width: 14%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr>
+<th>meter</th>
+<th>calib_deg_1</th>
+<th>calib_deg_1_ste</th>
+<th>diff_mean</th>
+<th>diff_ste</th>
+<th>diff_count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>23120527</td>
+<td>1.000226</td>
+<td>0.000009</td>
+<td>-0.004</td>
+<td>0.010</td>
+<td>7</td>
+</tr>
+<tr>
+<td>23120528</td>
+<td>0.999666</td>
+<td>0.000008</td>
+<td>-0.002</td>
+<td>0.011</td>
+<td>7</td>
+</tr>
+<tr>
+<td>23120531</td>
+<td>0.999642</td>
+<td>0.000009</td>
+<td>-0.005</td>
+<td>0.011</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<h2 id="пример-2-обработка-с-высоким-дрейфом">Пример 2: Обработка с
+высоким дрейфом</h2>
+<h3 id="сценарий">Сценарий</h3>
+<p>Измерения с грубыми выбросами (на шумном пункте)</p>
+<h3 id="настройки">Настройки</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/calibration.py <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--relative</span> data/noisy/<span class="pp">*</span>.dat <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--absolute</span> data/absolute.xlsx <span class="dt">\</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> results_noisy.xlsx <span class="dt">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--method</span> RLM <span class="dt">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--drift_degree</span> 2 <span class="dt">\</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--calib_degree</span> 1 <span class="dt">\</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--logging</span></span></code></pre></div>
+<p><strong>Особенности:</strong></p>
+<ul>
+<li><code>method RLM</code> - робастный метод для устойчивости к
+выбросам</li>
+<li><code>drift_degree 2</code> - квадратичная модель дрейфа</li>
+<li><code>--logging</code> - подробное логирование процесса</li>
+</ul>
+<h2 id="пример-3-прецизионные-измерения">Пример 3: Прецизионные
+измерения</h2>
+<h3 id="сценарий-1">Сценарий</h3>
+<p>Высокоточная калибровка с учетом квадратичных эффектов.</p>
+<h3 id="настройки-1">Настройки</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/calibration.py <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--relative</span> data/precision/<span class="pp">*</span>.dat <span class="dt">\</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--absolute</span> data/absolute.xlsx <span class="dt">\</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> results_precision.xlsx <span class="dt">\</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--method</span> WLS <span class="dt">\</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--drift_degree</span> 2 <span class="dt">\</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--calib_degree</span> 2 <span class="dt">\</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--meter_height</span> 0.205</span></code></pre></div>
+<p><strong>Особенности:</strong></p>
+<ul>
+<li><code>calib_degree 2</code> - квадратичная калибровка</li>
+<li>Точная высота прибора <code>0.205</code> м</li>
+</ul>
+<h3 id="интерпретация-квадратичной-калибровки">Интерпретация
+квадратичной калибровки</h3>
+<p><strong>calibration_parameters:</strong></p>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>meter</th>
+<th>calib_deg_1</th>
+<th>calib_deg_2</th>
+<th>calib_deg_1_ste</th>
+<th>calib_deg_2_ste</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>23120527</td>
+<td>1.000182</td>
+<td>8.77e-08</td>
+<td>0.000029</td>
+<td>5.93e-08</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Формула калибровки:</strong></p>
+<blockquote>
+<p><span
+class="math inline"><em>Δ</em><em>g</em> = 1.000182 × <em>Δ</em><em>g</em><sub>meas</sub> − 8.77<sup>−6</sup> × <em>Δ</em><em>g</em><sub>meas</sub><sup>2</sup></span></p>
+</blockquote>
+<!-- ## Пример 4: Диагностика проблем
+
+### Проблемный случай: высокие остатки
+
+**Результат:**
+
+| meter | diff_ste | diff_mean | diff_max |
+|-------|----------|-----------|----------|
+| 23120527 | 0.087 | 0.034 | 0.156 |
+
+**Анализ:**
+
+- `diff_ste = 0.087` мГал - превышает допустимое значение 0.01 мГал
+- `diff_mean = 0.034` мГал - систематическая ошибка
+- Требуется дополнительная диагностика
+
+### Действия по устранению
+
+1. **Проверка исходных данных:**
+
+```bash
+# Включить подробное логирование
+python scripts/calibration.py --logging ... 
+```
+
+2. **Попробовать робастный метод:**
+
+```bash
+python scripts/calibration.py --method RLM ...
+```
+
+3. **Изменить модель дрейфа:**
+
+```bash
+python scripts/calibration.py --drift_degree 1 ...
+``` -->
+<!-- ## Пример 5: Пакетная обработка
+
+### Скрипт для обработки множества проектов
+
+```bash
+#!/bin/bash
+# process_all.sh
+
+projects=("project1" "project2" "project3")
+
+for project in "${projects[@]}"
+do
+    echo "Processing $project..."
+    python scripts/calibration.py \
+        --relative data/$project/relative/*.dat \
+        --absolute data/$project/absolute.xlsx \
+        --output results/$project_results.xlsx \
+        --method WLS \
+        --drift_degree 2 \
+        --calib_degree 1 \
+        --logging
+    
+    echo "$project completed"
+done
+
+echo "All projects processed"
+```
+
+### Автоматический анализ качества
+
+```python
+# quality_check.py
+import pandas as pd
+import os
+
+results_folder = "results"
+quality_report = []
+
+for file in os.listdir(results_folder):
+    if file.endswith("_results.xlsx"):
+        df = pd.read_excel(f"{results_folder}/{file}", sheet_name='calibration_parameters')
+        
+        project = file.replace("_results.xlsx", "")
+        quality = "PASS" if df['diff_ste'].max() < 0.01 else "FAIL"
+        
+        quality_report.append({
+            'project': project,
+            'max_std': df['diff_ste'].max(),
+            'mean_coeff': df['calib_deg_1'].mean(),
+            'quality': quality
+        })
+
+report_df = pd.DataFrame(quality_report)
+report_df.to_excel("quality_summary.xlsx", index=False)
+print("Quality report saved to quality_summary.xlsx")
+``` -->
+<!-- ## Пример 6: Сравнение методов
+
+### Тестирование разных подходов на одних данных
+
+```bash
+# Взвешенный МНК
+python scripts/calibration.py --method WLS ... --output results_wls.xlsx
+
+# Обычный МНК  
+python scripts/calibration.py --method OLS ... --output results_ols.xlsx
+
+# Робастный МНК
+python scripts/calibration.py --method RLM ... --output results_rlm.xlsx
+```
+
+### Сравнительная таблица
+
+| Метод | Коэффициент | Ошибка коэфф. | Остатки (СКО) | Время |
+|-------|-------------|---------------|---------------|-------|
+| WLS | 1.0019 | 0.0003 | 0.008 | 0.5с |
+| OLS | 1.0021 | 0.0005 | 0.011 | 0.3с |
+| RLM | 1.0017 | 0.0004 | 0.007 | 1.2с |
+
+**Рекомендация:** WLS обеспечивает оптимальный баланс точности и скорости.
+
+## Пример 7: Работа с различными высотами
+
+### Сценарий: измерения на разных высотах установки прибора
+
+```bash
+# Стандартная высота 0.21 м
+python scripts/calibration.py --meter_height 0.21 ... --output results_h21.xlsx
+
+# Увеличенная высота 0.30 м  
+python scripts/calibration.py --meter_height 0.30 ... --output results_h30.xlsx
+
+# Минимальная высота 0.15 м
+python scripts/calibration.py --meter_height 0.15 ... --output results_h15.xlsx
+```
+
+### Влияние высоты на результат
+
+При градиенте **a = -0.308 мГал/м**:
+
+| Высота | Поправка к g | Коэффициент калибровки |
+|--------|--------------|------------------------|
+| 0.15 м | +0.018 мГал | 1.0019 |
+| 0.21 м | 0.000 мГал | 1.0019 |
+| 0.30 м | -0.028 мГал | 1.0019 |
+
+**Вывод:** Высота прибора влияет на абсолютные значения, но не на калибровочные коэффициенты. -->
+<hr />
+<p><em>Все примеры основаны на реальных сценариях использования.
+Адаптируйте параметры под специфику ваших данных и требований.</em></p>
+</body>
+</html>

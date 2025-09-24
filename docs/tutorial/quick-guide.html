@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Roman Sermiagin" />
+  <meta name="dcterms.date" content="2025-09-24" />
+  <title>Calibration Processing Quick Guide</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Calibration Processing Quick Guide</h1>
+<p class="author">Roman Sermiagin</p>
+<p class="date">2025-09-24</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#краткое-руководство-по-calibration-processing"
+id="toc-краткое-руководство-по-calibration-processing">Краткое
+руководство по Calibration Processing</a>
+<ul>
+<li><a href="#быстрый-старт" id="toc-быстрый-старт">Быстрый старт</a>
+<ul>
+<li><a href="#подготовка-данных" id="toc-подготовка-данных">1.
+Подготовка данных</a></li>
+<li><a href="#запуск" id="toc-запуск">2. Запуск</a></li>
+<li><a href="#результаты" id="toc-результаты">3. Результаты</a></li>
+</ul></li>
+<li><a href="#требования-к-данным"
+id="toc-требования-к-данным">Требования к данным</a>
+<ul>
+<li><a href="#файл-absolute.xlsx-должен-содержать"
+id="toc-файл-absolute.xlsx-должен-содержать">Файл absolute.xlsx должен
+содержать:</a></li>
+<li><a href="#файлы-cg-6-.dat" id="toc-файлы-cg-6-.dat">Файлы CG-6
+(*.dat)</a></li>
+</ul></li>
+<li><a href="#основные-параметры" id="toc-основные-параметры">Основные
+параметры</a></li>
+<li><a href="#оценка-качества" id="toc-оценка-качества">Оценка
+качества</a></li>
+<li><a href="#типичные-проблемы" id="toc-типичные-проблемы">Типичные
+проблемы</a></li>
+<li><a href="#контакты" id="toc-контакты">Контакты</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="краткое-руководство-по-calibration-processing">Краткое
+руководство по Calibration Processing</h1>
+<h2 id="быстрый-старт">Быстрый старт</h2>
+<h3 id="подготовка-данных">1. Подготовка данных</h3>
+<pre><code>проект/
+├── data/
+│   ├── relative/           # Файлы CG-6 (*.dat)
+│   └── absolute.xlsx       # Опорные значения  
+└── результаты/</code></pre>
+<h3 id="запуск">2. Запуск</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GUI режим (рекомендуется)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/calibration.py</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Командная строка</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/calibration.py <span class="at">--relative</span> data/relative/<span class="pp">*</span>.dat <span class="at">--absolute</span> data/absolute.xlsx</span></code></pre></div>
+<h3 id="результаты">3. Результаты</h3>
+<p>Программа создает файл Excel с двумя листами: -
+<strong>calibration_parameters</strong> - коэффициенты калибровки -
+<strong>fitted_ties</strong> - результаты свободного уравнивания</p>
+<h2 id="требования-к-данным">Требования к данным</h2>
+<h3 id="файл-absolute.xlsx-должен-содержать">Файл absolute.xlsx должен
+содержать:</h3>
+<table>
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 35%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr>
+<th>Колонка</th>
+<th>Описание</th>
+<th>Единицы</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Station</td>
+<td>Название точки</td>
+<td>-</td>
+</tr>
+<tr>
+<td>gravity_eff</td>
+<td>Ускорение силы тяжести эффективной высоте абсолютного
+гравиметра</td>
+<td>мГал</td>
+</tr>
+<tr>
+<td>h_eff</td>
+<td>Эффективная высота абсолютного гравиметра</td>
+<td>м</td>
+</tr>
+<tr>
+<td>a</td>
+<td>Коэффициент полинома аппроксимации вертикального градиента 1-ой
+степени</td>
+<td>мГал/м</td>
+</tr>
+<tr>
+<td>b</td>
+<td>Коэффициент полинома аппроксимации вертикального градиента 2-ой
+степени</td>
+<td>мГал²/м²</td>
+</tr>
+<tr>
+<td>ua</td>
+<td>Стандартная неопределенность коэффициента a</td>
+<td>мГал/м</td>
+</tr>
+<tr>
+<td>ub</td>
+<td>Стандартная неопределенность коэффициента b</td>
+<td>мГал²/м²</td>
+</tr>
+<tr>
+<td>covab</td>
+<td>Ковариация a-b</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="файлы-cg-6-.dat">Файлы CG-6 (*.dat)</h3>
+<p>Стандартные файлы данных с прибора Scintrex CG-6, содержащие: -
+Метаданные в заголовке (строки с <code>/</code>) - Таблицу измерений с
+обязательными колонками: - Station, Date, Time, CorrGrav, StdErr</p>
+<h2 id="основные-параметры">Основные параметры</h2>
+<ul>
+<li><strong>method</strong> - тип уравнивания по МНК (WLS/OLS/RLM)</li>
+<li><strong>drift_degree</strong> - максимальная степень аппроксимации
+дрейфа (1 или 2)</li>
+<li><strong>calib_degree</strong> - максимальная степень аппроксимации
+калибровочной функции (1 или 2)<br />
+</li>
+<li><strong>meter_height</strong> - высота сенсора гравиметра Scintrex
+CG-6 (м)</li>
+</ul>
+<h2 id="оценка-качества">Оценка качества</h2>
+<p><strong>Хорошие показатели:</strong> - Стандартное отклонение &lt;
+0.01 мГал - Среднее отклонение ≈ 0 мГал - Коэффициент калибровки близок
+к 1.0</p>
+<h2 id="типичные-проблемы">Типичные проблемы</h2>
+<ol type="1">
+<li><strong>Несоответствие названий станций</strong> - проверьте точное
+совпадение Station во всех файлах</li>
+<li><strong>Неверный формат absolute.xlsx</strong> - убедитесь в наличии
+всех обязательных колонок</li>
+<li><strong>Высокие остатки</strong> - проверьте качество исходных
+данных</li>
+</ol>
+<h2 id="контакты">Контакты</h2>
+<p><strong>Автор:</strong> Roman Sermiagin<br />
+<strong>Email:</strong> roman.sermiagin@gmail.com</p>
+</body>
+</html>

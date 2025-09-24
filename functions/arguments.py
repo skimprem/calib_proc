@@ -77,8 +77,10 @@ def cli_args():
         default=METHOD,
         help='''
             The method of estimate params:
-            RLM (Robust Linear Models) or OLM (ordinary least squares).
-            Default is "RLM"
+            RLM (Robust Linear Models) or
+            OLS (ordinary least squares) or
+            WLS (Weighted Least Squares).
+            Default is "WLS"
         '''
     )
 
