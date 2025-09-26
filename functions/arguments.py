@@ -1,3 +1,4 @@
+import sys
 import argparse
 import tkinter as tk
 from tkinter import filedialog as fd
@@ -5,8 +6,10 @@ from tkinter import simpledialog as sd
 from tkinter import messagebox as mb
 from functions.globals import METHOD
 from tkinter import ttk, simpledialog
+import logging
 
 
+logger = logging.getLogger('calib_proc.arguments')
 class ComboDialog(simpledialog.Dialog):
     def __init__(self, parent, title, options, text, initial=None):
         self.options = options
@@ -32,6 +35,8 @@ def ask_option(title, options, text, initial=None):
     return dlg.selection
 
 def cli_args():
+
+    logger.info('Starting CLI for argument input')
 
     parser=argparse.ArgumentParser(
         prog='calibration',
@@ -121,7 +126,16 @@ def gui_args():
     '''
     Define the namespace object for argument by CLI
     '''
-    
+
+    logger.info('Starting GUI for argument input')
+
+    logger.info('Logging mode selection')
+    logging_mode = mb.askyesno(
+        title='Logging',
+        message='Enable logging to file?',
+    )
+   
+    logger.info('Opening file selection dialog for relative measurements')
     relative=list(
         fd.askopenfilenames(
             defaultextension='.dat',
@@ -132,6 +146,11 @@ def gui_args():
         )
     )
 
+    if not relative:
+        logger.warning('User cancelled relative file selection, exiting')
+        sys.exit(0)
+
+    logger.info('Opening file selection dialog for absolute measurements')
     absolute=fd.askopenfilename(
             defaultextension='.xlsx',
             filetypes=[
@@ -140,7 +159,11 @@ def gui_args():
             ],
             title='Choose absolute file'
         )
+    if not absolute:
+        logger.warning('User cancelled absolute file selection, exiting')
+        sys.exit(0)
 
+    logger.info('Opening file selection dialog for output file')
     output = fd.asksaveasfilename(
         defaultextension=".xlsx",
         filetypes=[
@@ -149,14 +172,14 @@ def gui_args():
             ('All files', '*')
         ],
         initialfile='output.xlsx',
-        title='Save Output'
+        title='Save Output',
     )
 
-    logging_mode = mb.askyesno(
-        title='Logging',
-        message='Enable logging to file?',
-    )
+    if not output:
+        logger.warning('User cancelled output file selection, exiting')
+        sys.exit(0)
 
+    logger.info('Selecting solution method')
     method = ask_option(
         title='Solution method',
         options=['WLS', 'OLS', 'RLM'],
@@ -164,6 +187,11 @@ def gui_args():
         text='Select the method to estimate parameters:'
     )
 
+    if not method:
+        logger.warning('User cancelled method selection, exiting')
+        sys.exit(0)
+
+    logger.info('Selecting drift degree')
     drift_degree = ask_option(
         title='Drift degree',
         options=[1, 2],
@@ -171,6 +199,11 @@ def gui_args():
         text='Select the degree of drift fit:'
     )
 
+    if not drift_degree:
+        logger.warning('User cancelled drift degree selection, exiting')
+        sys.exit(0)
+
+    logger.info('Selecting calibration degree')
     calib_degree = ask_option(
         title='Calibration degree',
         options=[1, 2],
@@ -178,11 +211,20 @@ def gui_args():
         text='Select the degree of calibration fit:'
     )
 
+    if not calib_degree:
+        logger.warning('User cancelled calibration degree selection, exiting')
+        sys.exit(0)
+
+    logger.info('Entering meter height')
     meter_height = sd.askfloat(
         title='Meter height',
         prompt='Enter the height of the meter (m):',
         initialvalue=0.21,
     )
+
+    if not meter_height:
+        logger.warning('User cancelled meter height input, exiting')
+        sys.exit(0)
 
     arguments = []
     parser = argparse.ArgumentParser()

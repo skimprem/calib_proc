@@ -31,7 +31,7 @@ def setup_logging(enable_file_logging=False, log_file='calibration.log'):
         file_handler.setFormatter(file_formatter)
         logger.addHandler(file_handler)
         logger.info('Logging to file enabled: %s', log_file)
-        logger.info('=' * 50)  # Разделитель между сессиями
+        logger.info('=' * 50)
     
     return logger
 

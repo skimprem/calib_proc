@@ -103,7 +103,7 @@ def proc(relative, absolute, model_type='WLS', drift_degree=2, calib_degree=1):
                         'meter': meter_number,
                         'diff_count': stats.loc['diff', 'count'],
                         'diff_mean': stats.loc['diff', 'mean'],
-                        'diff_ste': stats.loc['diff', 'std'],
+                        'diff_ste': stats.loc['diff', 'std'] / np.sqrt(stats.loc['diff', 'count']),
                         'diff_min': stats.loc['diff', 'min'],
                         'diff_max': stats.loc['diff', 'max'],
                     },
