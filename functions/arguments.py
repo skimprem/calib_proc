@@ -120,7 +120,7 @@ def cli_args():
     )
 
     parser.add_argument(
-        '--anchor', '--fix-station',
+        '--fix-station',
         dest='anchor',
         type=str,
         default=None,
