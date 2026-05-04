@@ -117,7 +117,18 @@ def cli_args():
             The height of the meter.
             Default is 0.21 m.
         '''
-    )   
+    )
+
+    parser.add_argument(
+        '--anchor', '--fix-station',
+        dest='anchor',
+        type=str,
+        default=None,
+        help='''
+            Anchor station used as fixed base for tie and reference increments.
+            By default the first station in relative measurements is used.
+        '''
+    )
 
     return parser.parse_args()
 
@@ -260,5 +271,7 @@ def gui_args():
     parser.add_argument('--meter_height', type=float)
     arguments.append('--meter_height')
     arguments.append(str(meter_height))
+
+    parser.add_argument('--anchor', '--fix-station', dest='anchor', type=str, default=None)
 
     return parser.parse_args(arguments)

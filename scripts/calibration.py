@@ -78,6 +78,7 @@ def main():
             model_type=args.method,
             drift_degree=args.drift_degree,
             calib_degree=args.calib_degree,
+            anchor_station=getattr(args, 'anchor', None),
         )
 
         logger.info('Processing complete. Generated %d calibration parameters and %d ties', 
@@ -88,13 +89,15 @@ def main():
 
             params.to_excel(
                 writer,
-                index=False,
+                # index=False,
+                index_label='meter',
                 sheet_name='calibration_parameters'
             )
 
             ties.to_excel(
                 writer,
-                index=False,
+                # index=False,
+                index_label='station',
                 sheet_name='fitted_ties'
                 )
 
