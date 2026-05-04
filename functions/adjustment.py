@@ -35,6 +35,8 @@ def drift_fitting(stations, date_time, gravity, error, degree=2, model_type='WLS
     ordered_stations = [anchor_station] + [station for station in unique_stations if station != anchor_station]
     station_categorical = pd.Categorical(stations, categories=ordered_stations, ordered=True)
     station_design = pd.get_dummies(station_categorical, dtype=float)
+    # Keep index aligned with all other regressors (time terms and constant).
+    station_design.index = stations.index
     tie_names = station_design.columns[1:]
 
     exog = pd.concat(
