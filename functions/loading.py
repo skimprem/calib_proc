@@ -197,7 +197,18 @@ def load_absolute(_file, reduce_height=0):
     logger.debug('Reduce height parameter: %f', reduce_height)
 
     absolute = pd.read_excel(_file, engine='openpyxl')
+<<<<<<< HEAD
     absolute['Station'] = absolute['Station'].apply(_normalize_station)
+=======
+
+    # Some source tables store effective height in centimeters.
+    # Convert to meters when values are obviously not in meters.
+    h_eff = absolute['h_eff'].astype(float)
+    if h_eff.abs().median() > 10:
+        logger.warning('Detected h_eff values likely in centimeters, converting to meters')
+        absolute['h_eff'] = h_eff / 100.0
+
+>>>>>>> 34a29ddfa753ddf15e8fd6f1c081d1dffdd4cd97
     absolute['gravity_reduce'] = absolute.apply(
         lambda x: x['gravity_eff'] + shift_to_value(x['a'], x['b'], x['h_eff'], reduce_height), axis=1)
     absolute['ste_reduce'] = absolute.apply(lambda x: shift_to_ste(x['ua'], x['ub'], x['covab'], x['h_eff'], reduce_height), axis=1)

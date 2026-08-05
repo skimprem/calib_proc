@@ -8,7 +8,7 @@ def to_minutes_since_start(series):
     t0 = series.min()
     return (series - t0).dt.total_seconds() / 60
 
-def drift_fitting(stations, date_time, gravity, error, degree=2, model_type='WLS'):
+def drift_fitting(stations, date_time, gravity, error, degree=2, model_type='WLS', anchor_station=None):
 
     times = to_minutes_since_start(pd.to_datetime(date_time))
 
@@ -19,12 +19,29 @@ def drift_fitting(stations, date_time, gravity, error, degree=2, model_type='WLS
     endog = gravity
     weights = error**-2
 
-    stations = pd.get_dummies(stations, dtype=float)
-    tie_names = stations.columns[1:]
+    unique_stations = pd.Index(pd.unique(stations))
+    if unique_stations.empty:
+        raise ValueError('No stations found in relative measurements.')
+
+    if anchor_station is None:
+        anchor_station = unique_stations[0]
+
+    if anchor_station not in unique_stations:
+        raise ValueError(
+            f'Anchor station "{anchor_station}" is missing in relative measurements. '
+            f'Available stations: {list(unique_stations)}'
+        )
+
+    ordered_stations = [anchor_station] + [station for station in unique_stations if station != anchor_station]
+    station_categorical = pd.Categorical(stations, categories=ordered_stations, ordered=True)
+    station_design = pd.get_dummies(station_categorical, dtype=float)
+    # Keep index aligned with all other regressors (time terms and constant).
+    station_design.index = stations.index
+    tie_names = station_design.columns[1:]
 
     exog = pd.concat(
         [
-            stations.drop(stations.columns[0], axis=1),
+            station_design.drop(station_design.columns[0], axis=1),
             time_design,
             pd.DataFrame(np.ones_like(endog), index=endog.index, columns=['c']),
         ],
