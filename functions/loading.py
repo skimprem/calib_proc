@@ -197,6 +197,7 @@ def load_absolute(_file, reduce_height=0):
     logger.debug('Reduce height parameter: %f', reduce_height)
 
     absolute = pd.read_excel(_file, engine='openpyxl')
+    absolute['Station'] = absolute['Station'].apply(_normalize_station)
 
     # Some source tables store effective height in centimeters.
     # Convert to meters when values are obviously not in meters.
