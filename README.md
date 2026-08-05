@@ -2,11 +2,11 @@
 
 ## Description
 
-This package is designed for processing Scintrex CG-6 gravimeter data, calculating calibration parameters, and generating reports. It supports both relative and absolute measurements, automatic drift and calibration fitting.
+This package is designed for processing Scintrex CG-6 and CG-5 gravimeter data, calculating calibration parameters, and generating reports. It supports both relative and absolute measurements, automatic drift and calibration fitting.
 
 ## Features
 
-- Load and process CG-6 data files
+- Load and process CG-6 and CG-5 data files (format is auto-detected per file)
 - Merge relative and absolute measurements
 - Automatic drift and calibration fitting
 - Calculation of parameters and their uncertainties

@@ -40,7 +40,7 @@ def cli_args():
 
     parser=argparse.ArgumentParser(
         prog='calibration',
-        description='Determinate CG-6 Calibration Parameters',
+        description='Determinate Scintrex CG-6/CG-5 Calibration Parameters',
         epilog='''
             Describe the program here.
         ''',
@@ -140,7 +140,10 @@ def gui_args():
         fd.askopenfilenames(
             defaultextension='.dat',
             filetypes=[
+                ('CG-6/CG-5 format files', '*.dat *.txt'),
                 ('CG-6 format files', '*.dat'),
+                ('CG-5 format files', '*.txt'),
+                ('All files', '*'),
             ],
             title='Choose measured data files'
         )

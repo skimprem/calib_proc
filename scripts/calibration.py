@@ -47,15 +47,15 @@ def main():
         data_files = []
         for data_file_name in args.relative:
             try:
-                logger.info('Opening CG-6 data file: %s', data_file_name)
+                logger.info('Opening relative data file: %s', data_file_name)
                 data_files.append(open(data_file_name, 'r', encoding='utf-8'))
             except FileNotFoundError:
-                logger.error('CG-6 data file not found: "%s"', data_file_name)
+                logger.error('Relative data file not found: "%s"', data_file_name)
                 sys.exit(1)
 
-        logger.info('Loading %d CG-6 data files', len(data_files))
+        logger.info('Loading %d relative data files', len(data_files))
         relative = load_relative(data_files)
-        logger.info('Loaded %d CG-6 readings', len(relative))
+        logger.info('Loaded %d readings', len(relative))
 
         try:
             logger.debug('Loading reference data from: %s', args.absolute.name)
